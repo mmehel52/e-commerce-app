@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const seedRouter = require("./routes/seedRoutes.js");
 const productRouter = require("./routes/productRoutes.js");
+const userRouter = require("./routes/userRoutes.js");
 
 dotenv.config();
 
@@ -18,8 +19,16 @@ mongoose
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/api/seed", seedRouter);
 app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+
+app.use((err, req, res, next) => {
+  res.status(500).send({ message: err.message });
+});
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {

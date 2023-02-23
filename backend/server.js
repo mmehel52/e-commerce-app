@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const seedRouter = require("./routes/seedRoutes.js");
 const productRouter = require("./routes/productRoutes.js");
 const userRouter = require("./routes/userRoutes.js");
+const orderRouter = require("./routes/orderRoutes.js");
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/seed", seedRouter);
 app.use("/api/products", productRouter);
 app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });

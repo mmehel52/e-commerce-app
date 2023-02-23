@@ -6,7 +6,7 @@ import Col from "react-bootstrap/Col";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
-import { getError } from "../util";
+import { getError } from "../utils";
 // import logger from "use-reducer-loger";
 
 const reducer = (state, action) => {

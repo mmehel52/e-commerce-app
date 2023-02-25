@@ -4,6 +4,43 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getError } from "../utils";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Rating from "../components/Raiting";
+import MessageBox from "../components/MessageBox";
+import LoadingBox from "../components/LoadingBox";
+const prices = [
+  {
+    name: "$1 to $50",
+    value: "1-50",
+  },
+  {
+    name: "$51 to $200",
+    value: "51-200",
+  },
+  {
+    name: "$201 to $1000",
+    value: "201-1000",
+  },
+];
+const ratings = [
+  {
+    name: "4stars & up",
+    rating: 4,
+  },
+  {
+    name: "3stars & up",
+    rating: 3,
+  },
+  {
+    name: "2stars & up",
+    rating: 2,
+  },
+  {
+    name: "1stars & up",
+    rating: 1,
+  },
+];
 const SearchScreen = () => {
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -75,7 +112,7 @@ const SearchScreen = () => {
     const filterRating = filter.page || rating;
     const filterPrice = filter.page || price;
     const sortOrder = filter.page || order;
-    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}`;
+    return `/search?category=${filterCategory}&query=${filterQuery}&price=${filterPrice}&rating=${filterRating}&order=${sortOrder}&page=${filterPage}`;
   };
 
   return (
@@ -83,6 +120,111 @@ const SearchScreen = () => {
       <Helmet>
         <title>Search Product</title>
       </Helmet>
+      <Row>
+        <Col md={3}>
+          <h3>Department</h3>
+          <div>
+            <ul>
+              <li>
+                <Link
+                  className={"all" === category ? "text-bold" : ""}
+                  to={getFilterUrl({ category: "all" })}
+                >
+                  Any
+                </Link>
+              </li>
+              {categories.map((c) => (
+                <li key={c}>
+                  <Link
+                    className={c === category ? "text-bold" : ""}
+                    to={getFilterUrl({ category: c })}
+                  >
+                    {c}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Price</h3>
+            <ul>
+              <li>
+                <Link
+                  className={"all" === price ? "text-bold" : ""}
+                  to={getFilterUrl({ price: "all" })}
+                >
+                  Any
+                </Link>
+              </li>
+              {prices.map((p) => (
+                <li key={p.value}>
+                  <Link
+                    className={p.value === price ? "text-bold" : ""}
+                    to={getFilterUrl({ price: p.value })}
+                  >
+                    {p.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3>Average Customer Rewiew</h3>
+            <ul>
+              {ratings.map((r) => (
+                <li key={r.name}>
+                  <Link
+                    className={`${r.rating}` === `${rating}` ? "text-bold" : ""}
+                    to={getFilterUrl({ rating: r.rating })}
+                  >
+                    <Rating caption={"& up"} rating={r.rating} />
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  className={rating === "all" ? "text-bold" : ""}
+                  to={getFilterUrl({ rating: "all" })}
+                >
+                  <Rating caption={"& up"} rating={0} />
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </Col>
+        <Col md={9}>
+          {loading ? (
+            <LoadingBox />
+          ) : error ? (
+            <MessageBox variant="danger">{error}</MessageBox>
+          ) : (
+            <>
+              <Row className="justify-content-between mb-5">
+                <Col md={6}>
+                  <div>
+                    {countProducts === 0 ? "No" : countProducts}Results
+                    {query !== "all" && ":" + query}
+                    {category !== "all" && ":" + category}
+                    {price !== "all" && ":Price" + price}
+                    {rating !== "all" && ":Rating" + rating + "&up"}
+                    {query !== "all" ||
+                    category !== "all" ||
+                    price !== "all" ||
+                    rating !== "all" ? (
+                      <Button
+                        variant="light"
+                        onClick={() => navigate("/search")}
+                      >
+                        <i className="fas fa-times-circle"></i>
+                      </Button>
+                    ) : null}
+                  </div>
+                </Col>
+              </Row>
+            </>
+          )}
+        </Col>
+      </Row>
     </div>
   );
 };

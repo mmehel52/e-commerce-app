@@ -24,6 +24,7 @@ import Button from "react-bootstrap/esm/Button";
 import { getError } from "./utils";
 import axios from "axios";
 import SearchBox from "./components/SearchBox";
+import SearchScreen from "./screens/SearchScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -143,6 +144,7 @@ function App() {
             <Route path="/profile" element={<ProfileScreen />} />
             <Route path="/placeorder" element={<PlaceOrderScreen />} />
             <Route path="/order/:id" element={<OrderScreen />} />
+            <Route path="/search" element={<SearchScreen />} />
             <Route
               path="/orderhistory"
               element={<OrderHistoryScreen />}

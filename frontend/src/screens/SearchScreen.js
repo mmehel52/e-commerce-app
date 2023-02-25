@@ -9,6 +9,9 @@ import Col from "react-bootstrap/Col";
 import Rating from "../components/Raiting";
 import MessageBox from "../components/MessageBox";
 import LoadingBox from "../components/LoadingBox";
+import Product from "../components/Product";
+import Button from "react-bootstrap/Button";
+import { LinkContainer } from "react-router-bootstrap";
 const prices = [
   {
     name: "$1 to $50",
@@ -220,7 +223,47 @@ const SearchScreen = () => {
                     ) : null}
                   </div>
                 </Col>
+                <Col className="text-end">
+                  Sort by{" "}
+                  <select
+                    value={order}
+                    onChange={(e) => {
+                      navigate(getFilterUrl({ order: e.target.value }));
+                    }}
+                  >
+                    <option value="newest">Newest Arrivals</option>
+                    <option value="lowest">Price:Low to High</option>
+                    <option value="highest">Price:High to Low</option>
+                    <option value="toprated">Avg. Customer Reviews</option>
+                  </select>
+                </Col>
               </Row>
+              {products.length === 0 && (
+                <MessageBox>No Product Found</MessageBox>
+              )}
+              <Row>
+                {products.map((product) => (
+                  <Col sm={6} lg={4} className="mb-3" key={product._id}>
+                    <Product product={product}></Product>
+                  </Col>
+                ))}
+              </Row>
+              <div>
+                {[...Array(pages).keys()].map((x) => (
+                  <LinkContainer
+                    key={x + 1}
+                    className="mx-1"
+                    to={getFilterUrl({ page: x + 1 })}
+                  >
+                    <Button
+                      variant="light"
+                      className={Number(page) === x + 1 ? "text-bold" : ""}
+                    >
+                      {x + 1}
+                    </Button>
+                  </LinkContainer>
+                ))}
+              </div>
             </>
           )}
         </Col>

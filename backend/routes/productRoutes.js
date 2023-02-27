@@ -8,6 +8,13 @@ productRouter.get("/", async (req, res) => {
   res.send(products);
 });
 productRouter.get(
+  "/search",
+  expressAsyncHandler(async (req, res) => {
+    const products = await Product.find();
+    res.send(products);
+  })
+);
+productRouter.get(
   "/categories",
   expressAsyncHandler(async (req, res) => {
     const categories = await Product.find().distinct("category");

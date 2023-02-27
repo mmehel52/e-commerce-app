@@ -140,13 +140,13 @@ const ProductListScreen = () => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    {/* <Button
+                    <Button
                       type="button"
                       variant="light"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
                       Edit
-                    </Button> */}
+                    </Button>
                     &nbsp;
                     {/* <Button
                       type="button"

@@ -121,19 +121,14 @@ function App() {
                   </Link>
                 )}
                 {userInfo && userInfo.isSeller && (
-                  <div className="dropdown">
-                    <Link to="#admin">
-                      Seller <i className="fa fa-caret-down"></i>
-                    </Link>
-                    <ul className="dropdown-content">
-                      <li>
-                        <Link to="/productlist/seller">Products</Link>
-                      </li>
-                      <li>
-                        <Link to="/orderlist/seller">Orders</Link>
-                      </li>
-                    </ul>
-                  </div>
+                  <NavDropdown title="Seller" id="seller-nav-dropdown">
+                    <LinkContainer to="/orderlist/seller">
+                      <NavDropdown.Item>Order</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/productlist/seller">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
                 )}
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="admin-nav-dropdown">

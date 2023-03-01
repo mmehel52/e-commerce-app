@@ -32,6 +32,9 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [sellerName, setSellerName] = useState("");
+  const [sellerLogo, setSellerLogo] = useState("");
+  const [sellerDescription, setSellerDescription] = useState("");
 
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
@@ -44,7 +47,7 @@ export default function ProfileScreen() {
 
       const { data } = await Axios.put(
         "/api/users/profile",
-        { name, email, password },
+        { name, email, password, sellerName, sellerLogo, sellerDescription },
         {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
@@ -66,7 +69,7 @@ export default function ProfileScreen() {
       navigate();
     }
   }, [navigate, userInfo]);
-
+  console.log(userInfo);
   return (
     <Container className="small-container">
       <Helmet>
@@ -108,7 +111,43 @@ export default function ProfileScreen() {
             />
           </Form.Group>
         </Form.Group>
-
+        {userInfo.isSeller && (
+          <>
+            <h2>Seller</h2>
+            <Form.Group>
+              <Form.Label htmlFor="sellerName">Seller Name</Form.Label>
+              <Form.Control
+                id="sellerName"
+                type="text"
+                placeholder="Enter Seller Name"
+                value={sellerName}
+                onChange={(e) => setSellerName(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="sellerLogo">Seller Logo</Form.Label>
+              <Form.Control
+                id="sellerLogo"
+                type="text"
+                placeholder="Enter Seller Logo"
+                value={sellerLogo}
+                onChange={(e) => setSellerLogo(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="sellerDescription">
+                Seller Description
+              </Form.Label>
+              <Form.Control
+                id="sellerDescription"
+                type="text"
+                placeholder="Enter Seller Description"
+                value={sellerDescription}
+                onChange={(e) => setSellerDescription(e.target.value)}
+              ></Form.Control>
+            </Form.Group>
+          </>
+        )}
         <div className="mb-3">
           <Button type="submit">Update</Button>
         </div>

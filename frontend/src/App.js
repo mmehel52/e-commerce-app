@@ -34,6 +34,7 @@ import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import MapScreen from "./screens/MapScreen";
+import SellerRoute from "./components/SellerRoute";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -118,6 +119,21 @@ function App() {
                   <Link className="nav-link" to="/signin">
                     Sign In
                   </Link>
+                )}
+                {userInfo && userInfo.isSeller && (
+                  <div className="dropdown">
+                    <Link to="#admin">
+                      Seller <i className="fa fa-caret-down"></i>
+                    </Link>
+                    <ul className="dropdown-content">
+                      <li>
+                        <Link to="/productlist/seller">Products</Link>
+                      </li>
+                      <li>
+                        <Link to="/orderlist/seller">Orders</Link>
+                      </li>
+                    </ul>
+                  </div>
                 )}
                 {userInfo && userInfo.isAdmin && (
                   <NavDropdown title="Admin" id="admin-nav-dropdown">
@@ -250,6 +266,22 @@ function App() {
                 <ProtectedRoute>
                   <MapScreen />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/productlist/seller"
+              element={
+                <SellerRoute>
+                  <ProductListScreen />
+                </SellerRoute>
+              }
+            />
+            <Route
+              path="/orderlist/seller"
+              element={
+                <SellerRoute>
+                  <OrderListScreen />
+                </SellerRoute>
               }
             />
           </Routes>

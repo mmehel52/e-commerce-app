@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useReducer, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
+import ListGroup from "react-bootstrap/ListGroup";
 import { useNavigate, useParams } from "react-router-dom";
 import { Store } from "../Store";
 import { getError } from "../utils";
@@ -120,7 +121,7 @@ const ProductEditScreen = () => {
       dispatch({ type: "UPDATE_FAIL" });
     }
   };
-  const uploadFileHandler = async (e) => {
+  const uploadFileHandler = async (e, forImages) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();
     bodyFormData.append("file", file);
@@ -133,13 +134,20 @@ const ProductEditScreen = () => {
         },
       });
       dispatch({ type: "UPLOAD_SUCCESS" });
-
-      toast.success("Image uploaded successfully");
-      setImage(data.secure_url);
+      if (forImages) {
+        setImages([...images, data.secure_url]);
+      } else {
+        setImage(data.secure_url);
+      }
+      toast.success("Image uploaded successfully. click Update to apply it");
     } catch (err) {
       toast.error(getError(err));
       dispatch({ type: "UPLOAD_FAIL", payload: getError(err) });
     }
+  };
+  const deleteFileHandler = async (fileName, f) => {
+    setImages(images.filter((x) => x !== fileName));
+    toast.success("Image removed successfully. click Update to apply it");
   };
   return (
     <Container className="small-container">
@@ -190,7 +198,6 @@ const ProductEditScreen = () => {
             <Form.Control type="file" onChange={uploadFileHandler} />
             {loadingUpload && <LoadingBox></LoadingBox>}
           </Form.Group>
-          {/*
 
           <Form.Group className="mb-3" controlId="additionalImage">
             <Form.Label>Additional Images</Form.Label>
@@ -213,7 +220,7 @@ const ProductEditScreen = () => {
               onChange={(e) => uploadFileHandler(e, true)}
             />
             {loadingUpload && <LoadingBox></LoadingBox>}
-          </Form.Group> */}
+          </Form.Group>
 
           <Form.Group className="mb-3" controlId="category">
             <Form.Label>Category</Form.Label>

@@ -45,7 +45,7 @@ function App() {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
     localStorage.removeItem("paymentMethod");
-    window.location.href = "signin";
+    window.location.href = "/signin";
   };
   const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);

@@ -1,4 +1,4 @@
-import Axios from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -45,9 +45,17 @@ export default function ProfileScreen() {
     try {
       dispatch({ type: "UPDATE_REQUEST" });
 
-      const { data } = await Axios.put(
+      const { data } = await axios.put(
         "/api/users/profile",
-        { name, email, password, sellerName, sellerLogo, sellerDescription },
+        {
+          _id: userInfo.id,
+          name,
+          email,
+          password,
+          sellerName,
+          sellerLogo,
+          sellerDescription,
+        },
         {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
@@ -64,12 +72,12 @@ export default function ProfileScreen() {
     }
   };
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate();
-    }
-  }, [navigate, userInfo]);
-  console.log(userInfo);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate();
+  //   }
+  // }, [navigate, userInfo]);
+
   return (
     <Container className="small-container">
       <Helmet>
@@ -114,8 +122,7 @@ export default function ProfileScreen() {
         {userInfo.isSeller && (
           <>
             <h2>Seller</h2>
-            <Form.Group>
-              <Form.Label htmlFor="sellerName">Seller Name</Form.Label>
+            <Form.Group className="mb-3" controlId="sellerName">
               <Form.Control
                 id="sellerName"
                 type="text"
@@ -124,8 +131,7 @@ export default function ProfileScreen() {
                 onChange={(e) => setSellerName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="sellerLogo">Seller Logo</Form.Label>
+            <Form.Group className="mb-3" controlId="sellerLogo">
               <Form.Control
                 id="sellerLogo"
                 type="text"
@@ -134,10 +140,7 @@ export default function ProfileScreen() {
                 onChange={(e) => setSellerLogo(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            <Form.Group>
-              <Form.Label htmlFor="sellerDescription">
-                Seller Description
-              </Form.Label>
+            <Form.Group className="mb-3" controlId="sellerDescription">
               <Form.Control
                 id="sellerDescription"
                 type="text"
@@ -148,8 +151,10 @@ export default function ProfileScreen() {
             </Form.Group>
           </>
         )}
-        <div className="mb-3">
-          <Button type="submit">Update</Button>
+        <div className="mb-3 text-center">
+          <Button type="submit" size="lg">
+            Update
+          </Button>
         </div>
       </Form>
     </Container>

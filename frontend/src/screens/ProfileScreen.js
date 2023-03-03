@@ -32,9 +32,6 @@ export default function ProfileScreen() {
   const [email, setEmail] = useState(userInfo.email);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [sellerName, setSellerName] = useState("");
-  const [sellerLogo, setSellerLogo] = useState("");
-  const [sellerDescription, setSellerDescription] = useState("");
 
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
@@ -52,9 +49,6 @@ export default function ProfileScreen() {
           name,
           email,
           password,
-          sellerName,
-          sellerLogo,
-          sellerDescription,
         },
         {
           headers: {
@@ -72,11 +66,11 @@ export default function ProfileScreen() {
     }
   };
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate();
-  //   }
-  // }, [navigate, userInfo]);
+  useEffect(() => {
+    if (userInfo) {
+      navigate();
+    }
+  }, [navigate, userInfo]);
 
   return (
     <Container className="small-container">
@@ -119,38 +113,7 @@ export default function ProfileScreen() {
             />
           </Form.Group>
         </Form.Group>
-        {userInfo.isSeller && (
-          <>
-            <h2>Seller</h2>
-            <Form.Group className="mb-3" controlId="sellerName">
-              <Form.Control
-                id="sellerName"
-                type="text"
-                placeholder="Enter Seller Name"
-                value={sellerName}
-                onChange={(e) => setSellerName(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="sellerLogo">
-              <Form.Control
-                id="sellerLogo"
-                type="text"
-                placeholder="Enter Seller Logo"
-                value={sellerLogo}
-                onChange={(e) => setSellerLogo(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="sellerDescription">
-              <Form.Control
-                id="sellerDescription"
-                type="text"
-                placeholder="Enter Seller Description"
-                value={sellerDescription}
-                onChange={(e) => setSellerDescription(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-          </>
-        )}
+
         <div className="mb-3 text-center">
           <Button type="submit" size="lg">
             Update

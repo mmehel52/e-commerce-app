@@ -1,4 +1,6 @@
 import React, { useEffect, useReducer } from "react";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 import axios from "axios";
 import Product from "../components/Product";
 import Row from "react-bootstrap/Row";
@@ -7,7 +9,7 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 import { getError } from "../utils";
-// import logger from "use-reducer-loger";
+import brand from "../brand";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,6 +48,13 @@ const HomeScreen = () => {
       <Helmet>
         <title>mmehel-app</title>
       </Helmet>
+      <Carousel showArrows autoPlay infiniteLoop={true} showThumbs={false}>
+        {brand.products.map((x) => (
+          <div key={x._id}>
+            <img src={x.image} alt={x.name} />
+          </div>
+        ))}
+      </Carousel>
       <h1>Featured Products</h1>
       <div className="products">
         {loading ? (

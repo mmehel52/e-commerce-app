@@ -119,3 +119,6 @@ main {
 button.thumbnail {
   padding: 0;
 }
+.carousel .slide img {
+  max-width: 10rem;
+}

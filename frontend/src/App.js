@@ -46,7 +46,7 @@ function App() {
     localStorage.removeItem("paymentMethod");
     window.location.href = "/signin";
   };
-  const [sidebarIsOpen, setsidebarIsOpen] = useState(false);
+  // const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
@@ -63,11 +63,7 @@ function App() {
   return (
     <div
       className={
-        sidebarIsOpen
-          ? fullBox
-            ? "site-container active-cont d-flex flex-column full-box"
-            : "site-container active-cont d-flex flex-column"
-          : fullBox
+        fullBox
           ? "site-container d-flex flex-column full-box"
           : "site-container d-flex flex-column"
       }
@@ -76,12 +72,12 @@ function App() {
       <header>
         <Navbar bg="dark" variant="dark" expand="lg">
           <Container>
-            <Button
+            {/* <Button
               variant="dark"
-              onClick={() => setsidebarIsOpen(!sidebarIsOpen)}
+              onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
             >
               <i className="fas fa-bars"></i>
-            </Button>
+            </Button> */}
             <LinkContainer to="/">
               <Navbar.Brand>mmehel com</Navbar.Brand>
             </LinkContainer>
@@ -141,7 +137,7 @@ function App() {
           </Container>
         </Navbar>
       </header>
-      <div
+      {/* <div
         className={
           sidebarIsOpen
             ? "active-nav side-navbar d-flex justify-content-between flex-wrap flex-column"
@@ -154,13 +150,16 @@ function App() {
           </Nav.Item>
           {categories.map((category) => (
             <Nav.Item key={category}>
-              <LinkContainer to="" onClick={() => setsidebarIsOpen(false)}>
+              <LinkContainer
+                to={`/search/category=${category}`}
+                onClick={() => setSidebarIsOpen(false)}
+              >
                 <NavLink>{category}</NavLink>
               </LinkContainer>
             </Nav.Item>
           ))}
         </Nav>
-      </div>
+      </div> */}
       <main>
         <Container className="mt-3">
           <Routes>

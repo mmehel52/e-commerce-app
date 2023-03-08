@@ -151,6 +151,7 @@ productRouter.get(
           }
         : {};
     const categoryFilter = category && category !== "all" ? { category } : {};
+    const brandFilter = brand && brand !== "all" ? { brand } : {};
     const ratingFilter =
       rating && rating !== "all"
         ? {
@@ -186,6 +187,7 @@ productRouter.get(
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
+      ...brandFilter,
     })
       .sort(sortOrder)
       .skip(pageSize * (page - 1))
@@ -196,6 +198,7 @@ productRouter.get(
       ...categoryFilter,
       ...priceFilter,
       ...ratingFilter,
+      ...brandFilter,
     });
     res.send({
       products,
@@ -212,6 +215,15 @@ productRouter.get(
     res.send(categories);
   })
 );
+
+productRouter.get(
+  "/brands",
+  expressAsyncHandler(async (req, res) => {
+    const brands = await Product.find().distinct("brand");
+    res.send(brands);
+  })
+);
+
 productRouter.get("/slug/:slug", async (req, res) => {
   const product = await Product.findOne({ slug: req.params.slug });
   if (product) {

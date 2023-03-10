@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const mg = require("mailgun-js");
 const generateToken = (user) => {
   return jwt.sign(
     {
@@ -38,5 +38,10 @@ const isAdmin = (req, res, next) => {
     res.status(401).send({ message: "Invalid Admin Token" });
   }
 };
+const mailgun = () =>
+  mg({
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+  });
 
-module.exports = { generateToken, isAuth, isAdmin };
+module.exports = { generateToken, isAuth, isAdmin, mailgun };

@@ -55,7 +55,7 @@ const HomeScreen = () => {
           </div>
         ))}
       </Carousel>
-      <h1>Featured Products</h1>
+      <h1>Products</h1>
       <div className="products">
         {loading ? (
           <LoadingBox />

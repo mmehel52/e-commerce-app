@@ -122,3 +122,6 @@ button.thumbnail {
 .carousel .slide img {
   max-width: 10rem;
 }
+.logo {
+  width: 3rem;
+}

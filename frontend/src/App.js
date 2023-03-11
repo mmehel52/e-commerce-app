@@ -1,4 +1,4 @@
-import { Link, NavLink, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HomeScreen from "./screens/HomeScreen";
@@ -20,7 +20,6 @@ import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-import Button from "react-bootstrap/esm/Button";
 import { getError } from "./utils";
 import axios from "axios";
 import SearchBox from "./components/SearchBox";
@@ -34,8 +33,8 @@ import OrderListScreen from "./screens/OrderListScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import MapScreen from "./screens/MapScreen";
-import ForgetPasswordScreen from "./screens/ForgetPasswordScreen";
-import ResetPasswordScreen from "./screens/ResetPasswordScreen";
+// import ForgetPasswordScreen from "./screens/ForgetPasswordScreen";
+// import ResetPasswordScreen from "./screens/ResetPasswordScreen";
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -81,7 +80,9 @@ function App() {
               <i className="fas fa-bars"></i>
             </Button> */}
             <LinkContainer to="/">
-              <Navbar.Brand>mmehel com</Navbar.Brand>
+              <Navbar.Brand>
+                <img src="/mm.png" alt="" className="logo" />
+              </Navbar.Brand>
             </LinkContainer>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -254,11 +255,11 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/forget-password" element={<ForgetPasswordScreen />} />
+            {/* <Route path="/forget-password" element={<ForgetPasswordScreen />} />
             <Route
               path="/reset-password/:token"
               element={<ResetPasswordScreen />}
-            />
+            /> */}
           </Routes>
         </Container>
       </main>

@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const expressAsyncHandler = require("express-async-handler");
 const User = require("../models/userModel.js");
-const { generateToken, isAuth, isAdmin, mailgun } = require("../utils.js");
+const { generateToken, isAuth, isAdmin } = require("../utils.js");
 const jwt = require("jsonwebtoken");
 const userRouter = express.Router();
 
@@ -122,68 +122,6 @@ userRouter.put(
     } else {
       res.status(404).send({ message: "User not found" });
     }
-  })
-);
-userRouter.post(
-  "/forget-password",
-  expressAsyncHandler(async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-
-    if (user) {
-      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "3h",
-      });
-      user.resetToken = token;
-      await user.save();
-
-      //reset link
-      console.log(`${process.env.BASE_URL}/reset-password/${token}`);
-
-      mailgun()
-        .messages()
-        .send(
-          {
-            from: "Mmehel <me@mg.yourdomain.com>",
-            to: `${user.name} <${user.email}>`,
-            subject: `Reset Password`,
-            html: ` 
-             <p>Please Click the following link to reset your password:</p> 
-             <a href="${process.env.BASE_URL}/reset-password/${token}"}>Reset Password</a>
-             `,
-          },
-          (error, body) => {
-            console.log(error);
-            console.log(body);
-          }
-        );
-      res.send({ message: "We sent reset password link to your email." });
-    } else {
-      res.status(404).send({ message: "User not found" });
-    }
-  })
-);
-
-userRouter.post(
-  "/reset-password",
-  expressAsyncHandler(async (req, res) => {
-    jwt.verify(req.body.token, process.env.JWT_SECRET, async (err, decode) => {
-      if (err) {
-        res.status(401).send({ message: "Invalid Token" });
-      } else {
-        const user = await User.findOne({ resetToken: req.body.token });
-        if (user) {
-          if (req.body.password) {
-            user.password = bcrypt.hashSync(req.body.password, 8);
-            await user.save();
-            res.send({
-              message: "Password reseted successfully",
-            });
-          }
-        } else {
-          res.status(404).send({ message: "User not found" });
-        }
-      }
-    });
   })
 );
 

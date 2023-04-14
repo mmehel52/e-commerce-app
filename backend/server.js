@@ -1,5 +1,5 @@
 const express = require("express");
-const data = require("./data");
+const data = require("./data.js");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const seedRouter = require("./routes/seedRoutes.js");
